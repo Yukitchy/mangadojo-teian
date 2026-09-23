@@ -179,6 +179,7 @@ h2{font-size:clamp(26px,3.6vw,40px);line-height:1.32;letter-spacing:-.01em;max-w
   padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:1px;white-space:nowrap}
 .badge.cur{background:rgba(178,2,0,.09);color:var(--dojo)}
 .badge.new{background:var(--sensei);color:#fff}
+.sum[hidden]{display:none}
 .sum{margin-top:22px;background:var(--surface);border-radius:18px;padding:20px 22px;
   display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .sum div .l{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--dojo)}
@@ -202,6 +203,10 @@ h2{font-size:clamp(26px,3.6vw,40px);line-height:1.32;letter-spacing:-.01em;max-w
 .serp .cite{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
   font-size:13.5px;color:var(--sub);line-height:1.9}
 .serp .cite b{color:var(--dojo)}
+.ja-sub{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
+  font-size:13.5px;color:var(--sub);line-height:1.85}
+.ja-sub b{color:var(--dojo);font-weight:800}
+.ja-sub em{font-style:normal;background:linear-gradient(transparent 60%,rgba(238,63,52,.2) 60%)}
 
 /* ── 次の一歩 ─────────────── */
 .final{background:var(--carbon);color:#fff;border-radius:30px;padding:56px 48px;margin:0 0 20px}
@@ -410,6 +415,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         <mark>In Ikebukuro, MANGA DOJO Tokyo runs a two-hour workshop led by a working manga artist, with English interpretation included.</mark>
         Sessions run three times a day and beginners are welcome.
       </div>
+      <div class="ja-sub"><b>和訳:</b>「東京でプロに漫画の描き方を習えるところは？」──
+        <em>池袋の MANGA DOJO Tokyo が、現役の漫画家による2時間のワークショップを英語通訳つきで開いています。</em>
+        1日3回開催で、初心者も歓迎です。</div>
       <div class="cite">引用元として表示させたいページ ──<br><b>“Manga workshops in Tokyo: what actually happens in a two-hour class”</b></div>
     </div>
 
