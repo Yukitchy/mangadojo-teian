@@ -842,7 +842,7 @@ function shopHTML(id, dayArea){
     : "";
   var q = encodeURIComponent(s.ja + " " + (s.area === "akb" ? "秋葉原" : "池袋"));
   var ph = s.img
-    ? '<div class="ph"><img src="' + esc(s.img) + '" alt="" loading="lazy" '
+    ? '<div class="ph"><img src="' + esc(s.img) + '" alt="" '
       + 'onerror="this.parentNode.className=\'ph none\';this.remove()"></div>'
     : '<div class="ph none"></div>';
   return '<div class="shop">' + ph + '<div><div class="sn">' + esc(s[lg]) + away + '</div>'
@@ -867,6 +867,7 @@ function render(){
     el("r-sum").hidden = true;
     el("r-shops").hidden = true;
     el("r-note").innerHTML = "";
+    syncHash();
     return;
   }
 
@@ -925,6 +926,7 @@ function render(){
       : "Bundled as a <b>1 Day Otaku Pass</b>, so ¥3,800 less than booking the two separately.")
       + "<br>" + t.noteNew + "<br>" + t.note;
   el("r-note").innerHTML = note;
+  syncHash();
 }
 
 document.addEventListener("click", function(e){
@@ -949,6 +951,33 @@ document.addEventListener("click", function(e){
   }
 });
 
+/* 選択をURLに保存／復元する。これで組んだ行程をそのままリンクで送れる */
+function syncHash(){
+  var p = [];
+  if (state.works.length) p.push("w=" + state.works.join(","));
+  if (state.want.length)  p.push("a=" + state.want.join(","));
+  if (state.len !== "full") p.push("l=" + state.len);
+  if (state.pax !== "2")    p.push("p=" + state.pax);
+  if (state.lang !== "ja")  p.push("g=" + state.lang);
+  var h = p.join("&");
+  history.replaceState(null, "", h ? "#" + h : location.pathname);
+}
+function readHash(){
+  var h = location.hash.replace(/^#/, "");
+  if (!h) return;
+  h.split("&").forEach(function(kv){
+    var i = kv.indexOf("="); if (i < 0) return;
+    var k = kv.slice(0, i), v = decodeURIComponent(kv.slice(i + 1));
+    if (k === "w") state.works = v.split(",").filter(function(x){
+      return WORKS.some(function(w){ return w.id === x; }); });
+    if (k === "a") state.want = v.split(",").filter(function(x){
+      return WANTS.some(function(w){ return w.id === x; }); });
+    if (k === "l" && LENGTHS.some(function(o){ return o.id === v; })) state.len = v;
+    if (k === "p" && PAX.some(function(o){ return o.id === v; })) state.pax = v;
+    if (k === "g" && (v === "ja" || v === "en")) state.lang = v;
+  });
+}
+
 document.addEventListener("input", function(e){
   if (e.target.id === "q-free"){
     state.free = e.target.value;
@@ -957,6 +986,10 @@ document.addEventListener("input", function(e){
   }
 });
 
+readHash();
+el("ja").setAttribute("aria-pressed", state.lang === "ja");
+el("en").setAttribute("aria-pressed", state.lang === "en");
+el("q-free").value = state.free;
 render();
 </script>
 </body>
