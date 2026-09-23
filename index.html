@@ -185,6 +185,7 @@ h2{font-size:clamp(26px,3.6vw,40px);line-height:1.32;letter-spacing:-.01em;max-w
 .sum div .v{font-size:23px;font-weight:900;margin-top:2px;letter-spacing:-.01em}
 .sum div .v small{font-size:13px;font-weight:700;color:var(--sub);margin-left:3px}
 .sum div:last-child .v{color:var(--sensei)}
+.sum .v.span{font-size:20px;letter-spacing:.01em}
 @media(max-width:560px){.sum{grid-template-columns:1fr;gap:12px}
   .tl li{grid-template-columns:58px 1fr;gap:12px}}
 .empty{color:var(--sub);font-size:14.5px;padding:60px 0;text-align:center;line-height:2}
@@ -382,7 +383,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         </div></li>
       </ul>
       <div class="sum" id="r-sum" hidden>
-        <div><div class="l" data-t="s1">滞在時間</div><div class="v num" id="s-hours"></div></div>
+        <div><div class="l" data-t="s1">滞在時間</div><div class="v num span" id="s-hours"></div></div>
         <div><div class="l" data-t="s2">お一人あたり</div><div class="v num" id="s-price"></div></div>
         <div><div class="l" data-t="s3">うち新提案ぶん</div><div class="v num" id="s-delta"></div></div>
       </div>
@@ -470,19 +471,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 var T = {
   ja:{
     q1:"どんなものがお好きですか？（複数可）", q2:"どのくらい東京にいられますか？", q3:"ご人数",
-    s1:"滞在時間", s2:"お一人あたり", s3:"うち新提案ぶん",
+    s1:"1日の長さ", s2:"お一人あたり", s3:"うち新提案ぶん",
     empty:"左でお好みを選ぶと、ここに1日の行程が出ます。",
     pick:"好きなものを選んでください", plan:"の1日",
-    cur:"現行", nw:"新提案", hrs:"時間", pax:"名",
+    cur:"現行", nw:"新提案", pax:"名",
     note:"※ 所要時間・順序は当日の混雑により調整します。飲食代・入場料・ゲーム代は含みません。",
     noteNew:"※ <b>新提案</b>の印がついた行が、今回ご提案している商品です。ここを足すと1日が最後まで埋まります。"
   },
   en:{
     q1:"What are you into? (pick any)", q2:"How long are you in Tokyo?", q3:"Group size",
-    s1:"Time with us", s2:"Per person", s3:"New additions",
+    s1:"Your day", s2:"Per person", s3:"New additions",
     empty:"Pick what you like and your day will appear here.",
     pick:"Pick what you like", plan:" day",
-    cur:"Available now", nw:"New", hrs:"hrs", pax:"pax",
+    cur:"Available now", nw:"New", pax:"pax",
     note:"Timings may shift with crowds on the day. Food, entry fees and arcade credits are not included.",
     noteNew:"Lines marked <b>New</b> are the additions we are proposing. They are what carry the day through to the evening."
   }
@@ -499,7 +500,7 @@ var INTERESTS = [
   {id:"sake",   ja:"日本酒・大人の時間",   en:"Sake & a grown-up evening", area:"any"}
 ];
 var LENGTHS = [
-  {id:"half", ja:"半日（3〜4時間）", en:"Half day (3–4 hrs)"},
+  {id:"half", ja:"半日（2〜3時間）", en:"Half day (2–3 hrs)"},
   {id:"full", ja:"まる1日（6〜8時間）", en:"Full day (6–8 hrs)"},
   {id:"night",ja:"1日＋夜まで（10時間）", en:"Full day + evening"}
 ];
@@ -571,31 +572,34 @@ function pickArea(){
   return "ike";
 }
 
-/* 行程を組む */
+/* 行程を組む。
+   まず順番を決めて、そのあと10:00から時計を進めて時刻を割り当てる。
+   夕方の商品（日本酒18:00／ナイトツアー17:30）は、その時刻より前には始めない。 */
 function buildPlan(){
   var has = function(id){ return state.int.indexOf(id) > -1; };
-  var plan = [];
+  var seq = [];
 
-  // 午前：描きたい or コスプレ。どちらも選ばれていなければ既定で漫画WS
-  if (has("cos")) plan.push({at:10, key:"cos"});
-  else            plan.push({at:10, key:"ws"});
-  if (has("cos") && has("draw")) plan.push({at:13, key:"ws"});
-
-  if (state.len === "half") {
-    // 半日：体験1つだけ、もしくは描きたくないならツアーだけ
-    if (!has("draw") && !has("cos")) plan = [{at:13, key:"tour"}];
-    return plan;
+  if (state.len === "half"){
+    // 半日：主役をひとつだけ
+    if (has("cos"))       seq = ["cos"];
+    else if (has("draw")) seq = ["ws"];
+    else                  seq = ["tour"];
+  } else {
+    if (has("cos")) seq.push("cos");
+    if (has("draw") || !has("cos")) seq.push("ws");   // 体験が未選択なら既定で漫画WS
+    seq.push("tour");
+    seq.splice(1, 0, "lunch");                        // 最初の体験の直後にお昼
+    if (state.len === "night") seq.push(has("sake") ? "sake" : "night");
   }
 
-  // 昼休憩 → ツアー
-  var t = plan.length > 1 ? 15 : 12;
-  if (t === 12) { plan.push({at:12, key:"lunch"}); plan.push({at:13, key:"tour"}); }
-  else          { plan.push({at:15, key:"tour"}); }
-
-  if (state.len === "night") {
-    if (has("sake")) plan.push({at:18, key:"sake"});
-    else             plan.push({at:17.5, key:"night"});
-  }
+  var clock = 10, plan = [];
+  seq.forEach(function(k){
+    var start = clock;
+    if (k === "sake")  start = Math.max(clock, 18);
+    if (k === "night") start = Math.max(clock, 17.5);
+    plan.push({at:start, key:k});
+    clock = start + ITEMS[k].dur;
+  });
   return plan;
 }
 
@@ -619,11 +623,13 @@ function render(){
 
   var plan  = buildPlan();
   var area  = pickArea();
-  var hours = 0, price = 0, delta = 0, anyNew = false;
+  var price = 0, delta = 0, anyNew = false;
+  var last  = plan[plan.length-1];
+  var span  = fmt(plan[0].at) + " → " + fmt(last.at + ITEMS[last.key].dur);
 
   el("r-list").innerHTML = plan.map(function(p){
     var it = ITEMS[p.key];
-    hours += it.dur; price += it.price;
+    price += it.price;
     if (it.kind === "new"){ delta += it.price; anyNew = true; }
     var badge = it.kind === "new"
       ? '<span class="badge new">'+t.nw+'</span>'
@@ -644,7 +650,7 @@ function render(){
   el("r-title").textContent = lg === "ja" ? (areaName + t.plan) : (areaName + t.plan);
   el("r-area").textContent  = isPass ? (lg==="ja" ? "1 Day Otaku Pass" : "1 Day Otaku Pass") : "";
 
-  el("s-hours").innerHTML = hours + '<small>' + t.hrs + '</small>';
+  el("s-hours").textContent = span;
   el("s-price").textContent = yen(price);
   el("s-delta").textContent = delta ? "+" + yen(delta) : "—";
   el("r-sum").hidden = false;
