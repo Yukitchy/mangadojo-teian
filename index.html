@@ -590,7 +590,7 @@ var SHOPS = {
   mandarakeAkb:{ja:"まんだらけコンプレックス 秋葉原",en:"Mandarake Complex Akihabara",area:"akb",
     dja:"中古の何でも屋。フロアごとにジャンルが変わる8階建て。",
     den:"Eight floors of second-hand everything, a different genre on each one.",
-    img:"https://mandarake.co.jp/dir/img/sub.png"},
+    img:null},
   gachaponKaikan:{ja:"秋葉原ガチャポン会館",en:"Akihabara Gachapon Kaikan",area:"akb",
     dja:"ガチャガチャ専門店。両替機があるので小銭の心配がいらない。",
     den:"Capsule toys only. There's a change machine, so coins are never a problem.",img:null},
@@ -632,11 +632,11 @@ var SHOPS = {
   mandarakeIke:{ja:"まんだらけ 池袋店",en:"Mandarake Ikebukuro",area:"ike",
     dja:"中古の同人・グッズ。女性向けの在庫が秋葉原店より厚い。",
     den:"Second-hand doujin and goods, with a deeper josei-muke stock than the Akihabara branch.",
-    img:"https://mandarake.co.jp/dir/img/sub.png"},
+    img:null},
   jumpshop:{ja:"JUMP SHOP 池袋PARCO",en:"JUMP SHOP Ikebukuro PARCO",area:"ike",
     dja:"週刊少年ジャンプ作品の公式ショップ。ここでしか買えないものがある。",
     den:"The official Weekly Shonen Jump store. Some of it is sold nowhere else.",
-    img:"http://jumpshop-benelic.com/cdn/shop/files/SNS.jpg?v=1776061412"}
+    img:"https://jumpshop-benelic.com/cdn/shop/files/SNS.jpg?v=1776061412"}
 };
 
 /* 作品。al = 自由入力の照合キーワード */
@@ -835,14 +835,17 @@ function fmt(h){
   return (hh<10?"0":"") + hh + ":" + (mm<10?"0":"") + mm;
 }
 
-function shopHTML(id){
+function shopHTML(id, dayArea){
   var s = SHOPS[id], lg = state.lang, t = L();
+  var away = dayArea && s.area !== dayArea
+    ? '<span class="pin">' + (s.area === "akb" ? (lg==="ja"?"秋葉原":"Akihabara") : (lg==="ja"?"池袋":"Ikebukuro")) + '</span>'
+    : "";
   var q = encodeURIComponent(s.ja + " " + (s.area === "akb" ? "秋葉原" : "池袋"));
   var ph = s.img
     ? '<div class="ph"><img src="' + esc(s.img) + '" alt="" loading="lazy" '
       + 'onerror="this.parentNode.className=\'ph none\';this.remove()"></div>'
     : '<div class="ph none"></div>';
-  return '<div class="shop">' + ph + '<div><div class="sn">' + esc(s[lg]) + '</div>'
+  return '<div class="shop">' + ph + '<div><div class="sn">' + esc(s[lg]) + away + '</div>'
     + '<div class="sd">' + esc(s[lg === "ja" ? "dja" : "den"]) + '</div>'
     + '<a class="sl" href="https://www.google.com/maps/search/?api=1&query=' + q
     + '" target="_blank" rel="noopener">' + t.map + '</a></div></div>';
@@ -906,7 +909,7 @@ function render(){
   if (shops.length){
     el("shops-n").textContent = shops.length + " " + t.shopsN;
     el("shops-t").textContent = t.shopsH;
-    el("shop-grid").innerHTML = shops.map(shopHTML).join("");
+    el("shop-grid").innerHTML = shops.map(function(id){ return shopHTML(id, area); }).join("");
     el("r-shops").hidden = false;
   } else {
     el("r-shops").hidden = true;
