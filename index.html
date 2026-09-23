@@ -179,7 +179,7 @@ h2{font-size:clamp(26px,3.6vw,40px);line-height:1.32;letter-spacing:-.01em;max-w
   padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:1px;white-space:nowrap}
 .badge.cur{background:rgba(178,2,0,.09);color:var(--dojo)}
 .badge.new{background:var(--sensei);color:#fff}
-.sum[hidden]{display:none}
+.sum[hidden],.shops[hidden]{display:none}
 .sum{margin-top:22px;background:var(--surface);border-radius:18px;padding:20px 22px;
   display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .sum div .l{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--dojo)}
@@ -227,6 +227,41 @@ h2{font-size:clamp(26px,3.6vw,40px);line-height:1.32;letter-spacing:-.01em;max-w
 footer{padding:40px 0 56px;font-size:13.5px;color:var(--sub);line-height:1.9}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 
+
+/* ── 作品チップと自由入力 ── */
+.freein{margin-top:10px;display:flex;gap:8px;align-items:center}
+.freein input{flex:1;font:inherit;font-size:14px;padding:10px 14px;border-radius:999px;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink);min-width:0}
+.freein input::placeholder{color:#a79a9a}
+.freein input:focus{border-color:var(--dojo);outline:none}
+.hitnote{font-size:13px;color:var(--sub);margin-top:9px;line-height:1.7}
+.hitnote b{color:var(--dojo)}
+
+/* ── この日に回るお店 ── */
+.shops{margin-top:26px}
+.shops-h{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--dojo);
+  border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:18px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.shops-h span:last-child{opacity:.7;letter-spacing:.05em;font-weight:700}
+.shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.shop-grid{grid-template-columns:1fr}}
+.shop{display:grid;grid-template-columns:76px 1fr;gap:13px;align-items:start;
+  animation:fade .42s var(--ease-out) both}
+.shop .ph{width:76px;height:76px;border-radius:14px;background:var(--surface);
+  overflow:hidden;position:relative}
+.shop .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.shop .ph.none::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(178,2,0,.16) 2.5px,transparent 2.5px);
+  background-size:16px 16px}
+.shop .sn{font-size:14.5px;font-weight:800;line-height:1.5}
+.shop .sd{font-size:13px;color:var(--sub);margin-top:4px;line-height:1.65}
+.shop .sl{display:inline-block;font-size:13px;font-weight:800;color:var(--dojo);
+  margin-top:6px;text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:1px}
+.shop .sl:hover{opacity:.6}
+.hitline{color:var(--ink)}
+.shop .pin{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.05em;
+  color:var(--sensei);margin-left:7px}
+
 /* 出現 */
 .reveal{animation:reveal-in linear both;animation-timeline:view();animation-range:entry 8% cover 30%}
 @keyframes reveal-in{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
@@ -270,7 +305,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
   <div class="protocard">
     <div class="tag">PROTOTYPE</div>
     <h3>Otaku Day Builder<br>お客様の「好き」から1日を組む</h3>
-    <p>好きなジャンルと滞在時間を選ぶだけで、MANGA DOJO の体験とウォーキングツアーを組み合わせた行程表が出ます。お問い合わせへの返信にそのまま貼れる形です。</p>
+    <p>好きな作品と滞在時間を選ぶだけで、行程表と<b>その日に回るお店</b>が出ます。ポケモンならポケモンセンター、レトロゲームならスーパーポテト。お問い合わせへの返信にそのまま貼れる形です。</p>
     <div class="mini" aria-hidden="true">
       <div class="row"><span class="t">10:00</span><span class="n"><b>漫画ワークショップ</b></span></div>
       <div class="row"><span class="t">13:00</span><span class="n"><b>池袋ウォーキングツアー</b></span></div>
@@ -352,9 +387,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <!-- ═══ プロトタイプ ═══ -->
 <section class="sec tint reveal" id="builder"><div class="wrap">
   <div class="head"><span class="l">プロトタイプ — Otaku Day Builder</span><span class="r">実際に動きます →</span></div>
-  <h2>お客様の「好き」を3つ選ぶだけで、<br>その日の行程表が出ます。</h2>
+  <h2>お客様の「推し」を選ぶだけで、<br>行程表と回るお店が出ます。</h2>
   <p class="lead">
-    お問い合わせの返信を書くとき、毎回ゼロから行程を考えるのは大変です。この道具は、ご希望から組み合わせを出して、そのまま送れる形にします。
+    お問い合わせの返信を書くとき、毎回ゼロから行程を考えるのは大変です。この道具は、お客様の「推し」から行程と<b>実際に回るお店</b>を出して、そのまま送れる形にします。
+    店は2026年9月に公式サイトで営業を確認したものだけを載せています。
     <b>お客様にお見せする画面は英語に切り替えられます。</b>
   </p>
 
@@ -367,14 +403,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         </span>
       </div>
 
-      <div class="qlabel" data-t="q1">どんなものがお好きですか？（複数可）</div>
-      <div class="chips" id="q-int"></div>
+      <div class="qlabel" data-t="q0">好きな作品は？（複数可）</div>
+      <div class="chips" id="q-work"></div>
+      <div class="freein">
+        <input type="text" id="q-free" autocomplete="off" spellcheck="false"
+               aria-label="ほかの作品名">
+      </div>
+
+      <div class="qlabel" data-t="q1">やってみたいことは？</div>
+      <div class="chips" id="q-want"></div>
 
       <div class="qlabel" data-t="q2">どのくらい東京にいられますか？</div>
       <div class="chips" id="q-len"></div>
 
       <div class="qlabel" data-t="q3">ご人数</div>
       <div class="chips" id="q-pax"></div>
+      <div class="hitnote" id="r-hint"></div>
     </div>
 
     <div class="result">
@@ -391,6 +435,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
         <div><div class="l" data-t="s1">滞在時間</div><div class="v num span" id="s-hours"></div></div>
         <div><div class="l" data-t="s2">お一人あたり</div><div class="v num" id="s-price"></div></div>
         <div><div class="l" data-t="s3">うち新提案ぶん</div><div class="v num" id="s-delta"></div></div>
+      </div>
+      <div class="shops" id="r-shops" hidden>
+        <div class="shops-h"><span id="shops-t">この日に回るお店</span><span id="shops-n"></span></div>
+        <div class="shop-grid" id="shop-grid"></div>
       </div>
       <p class="foot-note" id="r-note"></p>
     </div>
@@ -475,38 +523,175 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 <script>
 /* ─────────────────────────────────────────────
    Otaku Day Builder
-   現行商品(cur)と新提案(new)を混ぜて1日の行程を組む
+   好きな作品 → 実在する店 → 1日の行程
+   店は2026-09-23に公式サイトで営業を確認したものだけを載せている
    ───────────────────────────────────────────── */
 var T = {
   ja:{
-    q1:"どんなものがお好きですか？（複数可）", q2:"どのくらい東京にいられますか？", q3:"ご人数",
+    q0:"好きな作品は？（複数可）", q0p:"ほかの作品名を入れてみてください（例: 呪術廻戦）",
+    q1:"やってみたいことは？", q2:"どのくらい東京にいられますか？", q3:"ご人数",
     s1:"1日の長さ", s2:"お一人あたり", s3:"うち新提案ぶん",
-    empty:"左でお好みを選ぶと、ここに1日の行程が出ます。",
-    pick:"好きなものを選んでください", dayFull:"の1日", dayHalf:"の半日",
+    empty:"左で好きな作品を選ぶと、ここに1日の行程と回るお店が出ます。",
+    pick:"好きな作品を選んでください", dayFull:"の1日", dayHalf:"の半日",
     cur:"現行", nw:"新提案", pax:"名",
+    shopsH:"この日に回るお店", shopsN:"件", map:"地図で見る",
+    hit:"<b>{w}</b> ですね。{a}のお店を中心に組みました。",
+    miss:"<b>{q}</b> は一覧にありませんでした。当日ガイドに直接お伝えください（アニメ2,000作品ぶんの引き出しから組みます）。",
     note:"※ 所要時間・順序は当日の混雑により調整します。飲食代・入場料・ゲーム代は含みません。",
     noteNew:"※ <b>新提案</b>の印がついた行が、今回ご提案している商品です。ここを足すと1日が最後まで埋まります。"
   },
   en:{
-    q1:"What are you into? (pick any)", q2:"How long are you in Tokyo?", q3:"Group size",
+    q0:"What are you into? (pick any)", q0p:"Type another title (e.g. Jujutsu Kaisen)",
+    q1:"Anything you'd like to try?", q2:"How long are you in Tokyo?", q3:"Group size",
     s1:"Your day", s2:"Per person", s3:"New additions",
-    empty:"Pick what you like and your day will appear here.",
-    pick:"Pick what you like", dayFull:"A day in ", dayHalf:"Half a day in ",
+    empty:"Pick a title on the left and your day — and the shops you'll visit — will appear here.",
+    pick:"Pick a title you love", dayFull:"A day in ", dayHalf:"Half a day in ",
     cur:"Available now", nw:"New", pax:"pax",
+    shopsH:"Shops on this route", shopsN:"stops", map:"Open in Maps",
+    hit:"<b>{w}</b> — nice. We've built the day around {a}.",
+    miss:"<b>{q}</b> isn't in this list, but tell your guide on the day. He works from about 2,000 titles.",
     note:"Timings may shift with crowds on the day. Food, entry fees and arcade credits are not included.",
     noteNew:"Lines marked <b>New</b> are the additions we are proposing. They are what carry the day through to the evening."
   }
 };
 
-var INTERESTS = [
-  {id:"shonen", ja:"少年バトル系",        en:"Shonen / battle anime", area:"ike"},
-  {id:"kawaii", ja:"かわいい系・サンリオ", en:"Cute & Sanrio",         area:"ike"},
-  {id:"cards",  ja:"カード・ポケモン",     en:"Cards & Pokémon",       area:"ike"},
-  {id:"retro",  ja:"レトロゲーム",        en:"Retro games & arcades", area:"akb"},
-  {id:"figure", ja:"フィギュア・同人",     en:"Figures & doujin",      area:"akb"},
-  {id:"draw",   ja:"自分で描いてみたい",   en:"I want to draw",        area:"any"},
-  {id:"cos",    ja:"コスプレしたい",       en:"Cosplay",               area:"any"},
-  {id:"sake",   ja:"日本酒・大人の時間",   en:"Sake & a grown-up evening", area:"any"}
+/* 店。2026-09-23 に公式サイトで営業を確認。img は公式の og:image（取れなかった店は null） */
+var SHOPS = {
+  /* ── 秋葉原 ── */
+  radiokaikan:{ja:"秋葉原ラジオ会館",en:"Akihabara Radio Kaikan",area:"akb",
+    dja:"フィギュア・カード・同人の店が10フロア分そのまま積み上がった塔。",
+    den:"Ten floors of figure, card and doujin shops stacked in one tower.",img:null},
+  superpotato:{ja:"スーパーポテト 秋葉原店",en:"Super Potato Akihabara",area:"akb",
+    dja:"レトロゲーム専門。最上階は実際に遊べるレトロゲームセンター。",
+    den:"Retro game specialists. The top floor is a playable retro arcade.",
+    img:"https://www.superpotato.com/wp-content/uploads/2021/11/logo3.png"},
+  surugaya:{ja:"駿河屋 秋葉原",en:"Suruga-ya Akihabara",area:"akb",
+    dja:"中古のゲーム・フィギュア・カードが安い。掘り出し物はここ。",
+    den:"Second-hand games, figures and cards at low prices. This is where the finds are.",
+    img:"https://www.suruga-ya.jp/pics_webp/bgLogo.jpg.webp"},
+  gigo:{ja:"GiGO 秋葉原",en:"GiGO Akihabara",area:"akb",
+    dja:"クレーンゲームと音ゲーのゲームセンター。景品は最新作が並ぶ。",
+    den:"Crane games and rhythm games. The prize floors track whatever is airing now.",
+    img:"https://assets.gigo.co.jp/img/news/gigo-portal-ogp.png"},
+  cardlabo:{ja:"カードラボ 秋葉原（ラジオ会館本店）",en:"Card Labo Akihabara",area:"akb",
+    dja:"ポケカ・遊戯王・MTGの品揃えと対戦スペース。1枚から買える。",
+    den:"Pokémon, Yu-Gi-Oh! and MTG singles, plus tables to actually play at.",
+    img:"https://www.c-labo.jp/wordpress/wp-content/uploads/2020/01/IMG_2949.jpeg"},
+  amiami:{ja:"あみあみ 秋葉原ラジオ会館店",en:"AmiAmi Akihabara",area:"akb",
+    dja:"フィギュアとプラモの大型店。ラジオ会館4階。",
+    den:"A large figure and model kit store on the 4th floor of Radio Kaikan.",img:null},
+  kotobukiya:{ja:"コトブキヤ 秋葉原館",en:"Kotobukiya Akihabara",area:"akb",
+    dja:"フィギュアメーカー直営の旗艦店。限定品が置かれる。",
+    den:"The manufacturer's own flagship. Store-limited releases land here.",img:null},
+  volks:{ja:"ボークス 秋葉原ホビー天国2",en:"Volks Hobby Tengoku 2",area:"akb",
+    dja:"ガレージキット・ドール・プラモ。上級者向けの工具まで揃う。",
+    den:"Garage kits, dolls and models, down to the tools serious builders use.",
+    img:"https://hobby.volks.co.jp/assets/image/banner/H_ht2.jpg?231127"},
+  mandarakeAkb:{ja:"まんだらけコンプレックス 秋葉原",en:"Mandarake Complex Akihabara",area:"akb",
+    dja:"中古の何でも屋。フロアごとにジャンルが変わる8階建て。",
+    den:"Eight floors of second-hand everything, a different genre on each one.",
+    img:"https://mandarake.co.jp/dir/img/sub.png"},
+  gachaponKaikan:{ja:"秋葉原ガチャポン会館",en:"Akihabara Gachapon Kaikan",area:"akb",
+    dja:"ガチャガチャ専門店。両替機があるので小銭の心配がいらない。",
+    den:"Capsule toys only. There's a change machine, so coins are never a problem.",img:null},
+  yodobashi:{ja:"ヨドバシカメラ マルチメディアAkiba",en:"Yodobashi Akiba",area:"akb",
+    dja:"ガンプラとゲームのフロアが強い。免税カウンターもある。",
+    den:"Strong Gunpla and game floors, with a tax-free counter in the building.",img:null},
+
+  /* ── 池袋 ── */
+  animateIke:{ja:"アニメイト池袋本店",en:"Animate Ikebukuro",area:"ike",
+    dja:"世界最大のアニメショップ。9フロアが全部グッズ。",
+    den:"The largest anime store in the world. Nine floors, all merchandise.",
+    img:"https://www.animate.co.jp/assets/img/ogp/ikebukuro.jpg?2024-06-10"},
+  pokecen:{ja:"ポケモンセンターメガトウキョー",en:"Pokémon Center Mega Tokyo",area:"ike",
+    dja:"日本最大のポケモンセンター。ポケモンカードの対戦スペースが併設。",
+    den:"Japan's largest Pokémon Center, with a Pokémon Card play space attached.",
+    img:"https://shop.pokemon.co.jp/ja/shop/pokemoncenter-megatokyo/images/mv-pokemoncenter-megatokyo-002.webp"},
+  sanrioIke:{ja:"サンリオギフトゲート 池袋",en:"Sanrio Gift Gate Ikebukuro",area:"ike",
+    dja:"サンリオの公式店。日本限定のキャラクターグッズが並ぶ。",
+    den:"Sanrio's own store, stocked with Japan-only character goods.",
+    img:"https://a.mktgcdn.com/p/2wDNBdkzpLWg89NJMKpX7G-jjLieVtDPicae8rayzkk/509x509.jpg"},
+  gashapon:{ja:"ガシャポンのデパート 池袋総本店",en:"Gashapon Department Store Ikebukuro",area:"ike",
+    dja:"世界最大級のガチャガチャ売場。3,000面がずらりと並ぶ。",
+    den:"One of the world's biggest capsule-toy floors — around 3,000 machines in a row.",
+    img:"https://gashapon.jp/ogp2509.png"},
+  kbooks:{ja:"K-BOOKS 池袋（乙女ロード）",en:"K-BOOKS Ikebukuro (Otome Road)",area:"ike",
+    dja:"乙女ロードの中核。女性向け作品の中古グッズと同人が館ごとに分かれている。",
+    den:"The heart of Otome Road. Second-hand goods and doujin, split across several buildings.",img:null},
+  rashinban:{ja:"らしんばん 池袋店",en:"Lashinbang Ikebukuro",area:"ike",
+    dja:"中古のアニメグッズ。缶バッジやアクスタの掘り出し物が安い。",
+    den:"Second-hand anime goods — badges and acrylic stands at prices worth digging for.",
+    img:"https://www.lashinbang.com/wp-content/themes/lashinbang/img/ogp.png"},
+  swallowtail:{ja:"執事喫茶 Swallowtail",en:"Butlers Cafe Swallowtail",area:"ike",
+    dja:"本格的な執事喫茶。完全予約制なので行くなら事前に押さえる。",
+    den:"A proper butler cafe. Reservation only, so it has to be booked in advance.",img:null},
+  namjatown:{ja:"ナンジャタウン",en:"Namjatown",area:"ike",
+    dja:"サンシャインシティの屋内テーマパーク。餃子とデザートの街がある。",
+    den:"An indoor theme park inside Sunshine City, with its own gyoza and dessert streets.",
+    img:"https://bandainamco-am.co.jp/tp/images/banner/theme_park/bnr_namjatown.jpg"},
+  mandarakeIke:{ja:"まんだらけ 池袋店",en:"Mandarake Ikebukuro",area:"ike",
+    dja:"中古の同人・グッズ。女性向けの在庫が秋葉原店より厚い。",
+    den:"Second-hand doujin and goods, with a deeper josei-muke stock than the Akihabara branch.",
+    img:"https://mandarake.co.jp/dir/img/sub.png"},
+  jumpshop:{ja:"JUMP SHOP 池袋PARCO",en:"JUMP SHOP Ikebukuro PARCO",area:"ike",
+    dja:"週刊少年ジャンプ作品の公式ショップ。ここでしか買えないものがある。",
+    den:"The official Weekly Shonen Jump store. Some of it is sold nowhere else.",
+    img:"http://jumpshop-benelic.com/cdn/shop/files/SNS.jpg?v=1776061412"}
+};
+
+/* 作品。al = 自由入力の照合キーワード */
+var WORKS = [
+  {id:"pokemon", ja:"ポケモン", en:"Pokémon", area:"ike",
+   al:["pokemon","pokémon","ポケモン","ポケットモンスター","ピカチュウ","pikachu","ポケカ","pokeca","eevee","イーブイ","ミュウツー","mewtwo"],
+   shops:["pokecen","gashapon","animateIke","mandarakeIke"]},
+  {id:"onepiece", ja:"ワンピース", en:"One Piece", area:"ike",
+   al:["one piece","onepiece","ワンピース","ルフィ","luffy","麦わら","zoro","ゾロ","nami","ナミ"],
+   shops:["jumpshop","animateIke","mandarakeIke","rashinban"]},
+  {id:"aot", ja:"進撃の巨人", en:"Attack on Titan", area:"ike",
+   al:["attack on titan","aot","進撃の巨人","進撃","shingeki","エレン","eren","リヴァイ","levi","mikasa","ミカサ"],
+   shops:["animateIke","mandarakeIke","rashinban","kbooks"]},
+  {id:"mha", ja:"ヒロアカ", en:"My Hero Academia", area:"ike",
+   al:["my hero academia","mha","ヒロアカ","僕のヒーローアカデミア","デク","deku","bakugo","爆豪","todoroki","轟"],
+   shops:["jumpshop","animateIke","rashinban","gashapon"]},
+  {id:"demonslayer", ja:"鬼滅の刃", en:"Demon Slayer", area:"ike",
+   al:["demon slayer","kimetsu","鬼滅の刃","鬼滅","炭治郎","tanjiro","nezuko","禰豆子","zenitsu","善逸"],
+   shops:["jumpshop","animateIke","gashapon","rashinban"]},
+  {id:"jump", ja:"ジャンプ作品全般", en:"Shonen Jump titles", area:"ike",
+   al:["jump","ジャンプ","呪術廻戦","jujutsu","jjk","五条","gojo","ハンターハンター","hunter x hunter","naruto","ナルト","bleach","ブリーチ","dragon ball","ドラゴンボール","悟空","goku","スラムダンク","slam dunk"],
+   shops:["jumpshop","animateIke","mandarakeIke","gashapon"]},
+  {id:"fma", ja:"ハガレン", en:"Fullmetal Alchemist", area:"akb",
+   al:["fullmetal alchemist","fma","ハガレン","鋼の錬金術師","エドワード","edward elric","alphonse","アルフォンス"],
+   shops:["mandarakeAkb","surugaya","radiokaikan","amiami"]},
+  {id:"gundam", ja:"ガンダム", en:"Gundam", area:"akb",
+   al:["gundam","ガンダム","ガンプラ","gunpla","zaku","ザク","シャア","char","rx-78","エヴァ","evangelion","エヴァンゲリオン","メカ","mecha"],
+   shops:["yodobashi","volks","kotobukiya","radiokaikan"]},
+  {id:"monhun", ja:"モンスターハンター", en:"Monster Hunter", area:"akb",
+   al:["monster hunter","monhun","モンハン","モンスターハンター","mhw","capcom","カプコン","リオレウス","ストリートファイター","street fighter","バイオハザard","resident evil"],
+   shops:["gigo","surugaya","superpotato","yodobashi"]},
+  {id:"tcg", ja:"カードゲーム", en:"Trading cards", area:"akb",
+   al:["yugioh","yu-gi-oh","遊戯王","mtg","magic the gathering","マジック","card","カード","デュエル","duel","トレカ","tcg","ワンピカード","デュエマ"],
+   shops:["cardlabo","radiokaikan","surugaya","mandarakeAkb"]},
+  {id:"retro", ja:"レトロゲーム", en:"Retro games", area:"akb",
+   al:["retro","レトロ","famicom","ファミコン","スーファミ","super famicom","nes","snes","sega","セガ","dreamcast","ドリームキャスト","gameboy","ゲームボーイ","pc engine","メガドライブ","n64","ニンテンドー64","ps1","プレステ"],
+   shops:["superpotato","surugaya","mandarakeAkb","radiokaikan"]},
+  {id:"sanrio", ja:"サンリオ・ちいかわ", en:"Sanrio & Chiikawa", area:"ike",
+   al:["sanrio","サンリオ","hello kitty","キティ","ハローキティ","ちいかわ","chiikawa","シナモロール","cinnamoroll","クロミ","kuromi","マイメロ","my melody","pompompurin","すみっコぐらし","sumikko","かわいい","kawaii"],
+   shops:["sanrioIke","gashapon","namjatown","animateIke"]},
+  {id:"otome", ja:"乙女向け・アイドル", en:"Otome & idol titles", area:"ike",
+   al:["otome","乙女","あんスタ","ensemble stars","うたプリ","uta no prince","刀剣乱舞","touken","ヒプマイ","hypnosis mic","アイナナ","idolish","ツイステ","twisted wonderland","おそ松","free!","ハイキュー","haikyuu"],
+   shops:["kbooks","animateIke","swallowtail","rashinban"]},
+  {id:"figure", ja:"フィギュア・プラモ", en:"Figures & models", area:"akb",
+   al:["figure","フィギュア","プラモ","model kit","garage kit","ガレキ","ねんどろいど","nendoroid","figma","scale figure","スケールフィギュア","doll","ドール"],
+   shops:["radiokaikan","amiami","volks","kotobukiya"]},
+  {id:"vocaloid", ja:"初音ミク", en:"Hatsune Miku", area:"akb",
+   al:["hatsune miku","miku","初音ミク","ミク","vocaloid","ボカロ","プロセカ","project sekai","rin","len","音ゲー","rhythm game"],
+   shops:["radiokaikan","gigo","amiami","gachaponKaikan"]}
+];
+
+var WANTS = [
+  {id:"draw", ja:"自分で描いてみたい", en:"I want to draw"},
+  {id:"cos",  ja:"コスプレしたい",     en:"Cosplay"},
+  {id:"sake", ja:"日本酒・大人の時間", en:"Sake & a grown-up evening"}
 ];
 var LENGTHS = [
   {id:"half", ja:"半日（2〜3時間）", en:"Half day (2–3 hrs)"},
@@ -518,7 +703,7 @@ var PAX = [
   {id:"4", ja:"3〜4名", en:"3–4"}, {id:"8", ja:"5名以上", en:"5+"}
 ];
 
-/* 商品マスタ。price は お一人あたり（税込）。kind: cur=現行 / new=今回のご提案 */
+/* 商品。price は お一人あたり（税込）。kind: cur=現行 / new=今回のご提案 */
 var ITEMS = {
   ws:    {ja:"漫画ワークショップ", en:"Manga workshop",
           dja:"プロの漫画家による作画体験。英語通訳つき。", den:"Draw with a working manga artist. English interpretation included.",
@@ -527,7 +712,7 @@ var ITEMS = {
           dja:"現役コスプレイヤーによる衣装とメイク。ミニ撮影つき。", den:"Costume and make-up with a working cosplayer, plus a mini photo shoot.",
           dur:2, price:19800, kind:"cur"},
   tour:  {ja:"ウォーキングツアー", en:"Otaku walking tour",
-          dja:"推しに合わせてその日のルートを組みます。", den:"The route is built around your favourites on the day.",
+          dja:"下のお店を、推しに合わせた順番で回ります。", den:"The shops below, in an order built around your favourites.",
           dur:3, price:16000, kind:"cur"},
   night: {ja:"ナイト・オタクツアー", en:"Night otaku tour",
           dja:"ネオンのアーケードとゲームセンター。写真が一番よく撮れる時間帯です。", den:"Neon arcades after dark — the best three hours of the day for photos.",
@@ -540,64 +725,82 @@ var ITEMS = {
           dur:1, price:0, kind:"cur"}
 };
 
-var state = {int:[], len:"full", pax:"2", lang:"ja"};
+var state = {works:[], want:[], len:"full", pax:"2", lang:"ja", free:"", freeHit:null, freeMiss:""};
 
 function el(id){ return document.getElementById(id); }
 function L(){ return T[state.lang]; }
 function yen(n){ return "¥" + n.toLocaleString("en-US"); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+
+function chipHTML(k, o, on){
+  return '<button type="button" class="chip" data-k="'+k+'" data-v="'+o.id+'" aria-pressed="'+on+'">'
+    + esc(o[state.lang]) + '</button>';
+}
 
 function renderChips(){
-  var lg = state.lang;
-  el("q-int").innerHTML = INTERESTS.map(function(o){
-    return '<button type="button" class="chip" data-k="int" data-v="'+o.id+'" aria-pressed="'+
-      (state.int.indexOf(o.id)>-1)+'">'+o[lg]+'</button>';
-  }).join("");
+  el("q-work").innerHTML = WORKS.map(function(o){
+    return chipHTML("work", o, state.works.indexOf(o.id) > -1); }).join("");
+  el("q-want").innerHTML = WANTS.map(function(o){
+    return chipHTML("want", o, state.want.indexOf(o.id) > -1); }).join("");
   el("q-len").innerHTML = LENGTHS.map(function(o){
-    return '<button type="button" class="chip" data-k="len" data-v="'+o.id+'" aria-pressed="'+
-      (state.len===o.id)+'">'+o[lg]+'</button>';
-  }).join("");
+    return chipHTML("len", o, state.len === o.id); }).join("");
   el("q-pax").innerHTML = PAX.map(function(o){
-    return '<button type="button" class="chip" data-k="pax" data-v="'+o.id+'" aria-pressed="'+
-      (state.pax===o.id)+'">'+o[lg]+'</button>';
-  }).join("");
+    return chipHTML("pax", o, state.pax === o.id); }).join("");
   document.querySelectorAll(".qlabel").forEach(function(n){
     var k = n.getAttribute("data-t"); if (k) n.textContent = L()[k];
   });
   document.querySelectorAll("#r-sum .l").forEach(function(n){
     var k = n.getAttribute("data-t"); if (k) n.textContent = L()[k];
   });
+  el("q-free").placeholder = L().q0p;
 }
 
-/* エリア判定: 選ばれた興味の area を数える */
+/* 自由入力を作品に寄せる。当たらなければ miss として正直に出す */
+function matchFree(){
+  state.freeHit = null; state.freeMiss = "";
+  var q = state.free.trim().toLowerCase();
+  if (q.length < 2) return;
+  for (var i = 0; i < WORKS.length; i++){
+    var w = WORKS[i];
+    var keys = w.al.concat([w.ja.toLowerCase(), w.en.toLowerCase()]);
+    for (var j = 0; j < keys.length; j++){
+      var k = String(keys[j]).toLowerCase();
+      if (k && (q.indexOf(k) > -1 || k.indexOf(q) > -1)){ state.freeHit = w.id; return; }
+    }
+  }
+  state.freeMiss = state.free.trim();
+}
+
+/* いま効いている作品（チップ＋自由入力） */
+function activeWorks(){
+  var ids = state.works.slice();
+  if (state.freeHit && ids.indexOf(state.freeHit) < 0) ids.push(state.freeHit);
+  return ids.map(function(id){
+    return WORKS.filter(function(w){ return w.id === id; })[0];
+  }).filter(Boolean);
+}
+
 function pickArea(){
-  var ike = 0, akb = 0;
-  state.int.forEach(function(id){
-    var o = INTERESTS.filter(function(x){return x.id===id;})[0];
-    if (!o) return;
-    if (o.area === "ike") ike++;
-    if (o.area === "akb") akb++;
-  });
-  if (akb > ike) return "akb";
-  return "ike";
+  var ws = activeWorks(), ike = 0, akb = 0;
+  ws.forEach(function(w){ if (w.area === "akb") akb++; else ike++; });
+  return akb > ike ? "akb" : "ike";
 }
 
-/* 行程を組む。
-   まず順番を決めて、そのあと10:00から時計を進めて時刻を割り当てる。
-   夕方の商品（日本酒18:00／ナイトツアー17:30）は、その時刻より前には始めない。 */
+/* 行程を組む。先に順番を決めて、10:00から時計を進めて時刻を割り当てる */
 function buildPlan(){
-  var has = function(id){ return state.int.indexOf(id) > -1; };
+  var has = function(id){ return state.want.indexOf(id) > -1; };
   var seq = [];
 
   if (state.len === "half"){
-    // 半日：主役をひとつだけ
     if (has("cos"))       seq = ["cos"];
     else if (has("draw")) seq = ["ws"];
     else                  seq = ["tour"];
   } else {
     if (has("cos")) seq.push("cos");
-    if (has("draw") || !has("cos")) seq.push("ws");   // 体験が未選択なら既定で漫画WS
+    if (has("draw") || !has("cos")) seq.push("ws");
     seq.push("tour");
-    seq.splice(1, 0, "lunch");                        // 最初の体験の直後にお昼
+    seq.splice(1, 0, "lunch");
     if (state.len === "night") seq.push(has("sake") ? "sake" : "night");
   }
 
@@ -612,20 +815,54 @@ function buildPlan(){
   return plan;
 }
 
+/* 選ばれた作品から、その日に回る店を決める */
+function pickShops(){
+  var ws = activeWorks(), area = pickArea(), out = [];
+  ws.forEach(function(w){
+    w.shops.forEach(function(id){
+      if (SHOPS[id] && out.indexOf(id) < 0) out.push(id);
+    });
+  });
+  // 同じエリアの店を前に出す
+  out.sort(function(a, b){
+    return (SHOPS[a].area === area ? 0 : 1) - (SHOPS[b].area === area ? 0 : 1);
+  });
+  return out.slice(0, 6);
+}
+
 function fmt(h){
   var hh = Math.floor(h), mm = Math.round((h - hh) * 60);
   return (hh<10?"0":"") + hh + ":" + (mm<10?"0":"") + mm;
 }
 
+function shopHTML(id){
+  var s = SHOPS[id], lg = state.lang, t = L();
+  var q = encodeURIComponent(s.ja + " " + (s.area === "akb" ? "秋葉原" : "池袋"));
+  var ph = s.img
+    ? '<div class="ph"><img src="' + esc(s.img) + '" alt="" loading="lazy" '
+      + 'onerror="this.parentNode.className=\'ph none\';this.remove()"></div>'
+    : '<div class="ph none"></div>';
+  return '<div class="shop">' + ph + '<div><div class="sn">' + esc(s[lg]) + '</div>'
+    + '<div class="sd">' + esc(s[lg === "ja" ? "dja" : "den"]) + '</div>'
+    + '<a class="sl" href="https://www.google.com/maps/search/?api=1&query=' + q
+    + '" target="_blank" rel="noopener">' + t.map + '</a></div></div>';
+}
+
 function render(){
   renderChips();
   var lg = state.lang, t = L();
+  var ws = activeWorks();
 
-  if (state.int.length === 0){
+  el("r-hint").innerHTML = state.freeMiss
+    ? t.miss.replace("{q}", esc(state.freeMiss))
+    : "";
+
+  if (ws.length === 0){
     el("r-title").textContent = t.pick;
     el("r-area").textContent = "";
     el("r-list").innerHTML = '<li style="grid-template-columns:1fr;border:0"><div class="empty">'+t.empty+'</div></li>';
     el("r-sum").hidden = true;
+    el("r-shops").hidden = true;
     el("r-note").innerHTML = "";
     return;
   }
@@ -647,7 +884,6 @@ function render(){
       + it[lg] + badge + '</div><div class="td">' + it[lg==="ja"?"dja":"den"] + '</div></div></li>';
   }).join("");
 
-  // 1日パックが成立するなら、その分を割引として見せる
   var keys = plan.map(function(p){ return p.key; });
   var isPass = keys.indexOf("ws") > -1 && keys.indexOf("tour") > -1;
   if (isPass){ price -= 3800; }
@@ -658,18 +894,33 @@ function render(){
 
   var dayWord = state.len === "half" ? t.dayHalf : t.dayFull;
   el("r-title").textContent = lg === "ja" ? (areaName + dayWord) : (dayWord + areaName);
-  el("r-area").textContent  = isPass ? (lg==="ja" ? "1 Day Otaku Pass" : "1 Day Otaku Pass") : "";
+  el("r-area").textContent  = isPass ? "1 Day Otaku Pass" : "";
 
   el("s-hours").textContent = span;
   el("s-price").textContent = yen(price);
   el("s-delta").textContent = delta ? "+" + yen(delta) : "—";
   el("r-sum").hidden = false;
 
-  var note = t.note;
-  if (anyNew || isPass) note = t.noteNew + "<br>" + t.note;
-  if (isPass) note = (lg==="ja"
-      ? "※ 漫画ワークショップとツアーを <b>1 Day Otaku Pass</b> として束ねたため、単品合計より ¥3,800 お安くなっています。<br>"
-      : "Bundled as a <b>1 Day Otaku Pass</b>, so ¥3,800 less than booking the two separately.<br>") + note;
+  /* 回るお店 */
+  var shops = (keys.indexOf("tour") > -1 || keys.indexOf("night") > -1) ? pickShops() : [];
+  if (shops.length){
+    el("shops-n").textContent = shops.length + " " + t.shopsN;
+    el("shops-t").textContent = t.shopsH;
+    el("shop-grid").innerHTML = shops.map(shopHTML).join("");
+    el("r-shops").hidden = false;
+  } else {
+    el("r-shops").hidden = true;
+  }
+
+  /* 説明文 */
+  var names = ws.map(function(w){ return w[lg]; }).join(lg === "ja" ? "・" : ", ");
+  var hint = t.hit.replace("{w}", esc(names)).replace("{a}", areaName);
+  var note = "<span class=\"hitline\">" + hint + "</span><br>" + t.note;
+  if (anyNew || isPass) note = "<span class=\"hitline\">" + hint + "</span><br>" + t.noteNew + "<br>" + t.note;
+  if (isPass) note = "<span class=\"hitline\">" + hint + "</span><br>" + (lg==="ja"
+      ? "※ 漫画ワークショップとツアーを <b>1 Day Otaku Pass</b> として束ねたため、単品合計より ¥3,800 お安くなっています。"
+      : "Bundled as a <b>1 Day Otaku Pass</b>, so ¥3,800 less than booking the two separately.")
+      + "<br>" + t.noteNew + "<br>" + t.note;
   el("r-note").innerHTML = note;
 }
 
@@ -677,9 +928,10 @@ document.addEventListener("click", function(e){
   var b = e.target.closest(".chip");
   if (b){
     var k = b.getAttribute("data-k"), v = b.getAttribute("data-v");
-    if (k === "int"){
-      var i = state.int.indexOf(v);
-      if (i > -1) state.int.splice(i,1); else state.int.push(v);
+    if (k === "work" || k === "want"){
+      var arr = k === "work" ? state.works : state.want;
+      var i = arr.indexOf(v);
+      if (i > -1) arr.splice(i,1); else arr.push(v);
     } else {
       state[k] = v;
     }
@@ -690,6 +942,14 @@ document.addEventListener("click", function(e){
     state.lang = e.target.id;
     el("ja").setAttribute("aria-pressed", state.lang === "ja");
     el("en").setAttribute("aria-pressed", state.lang === "en");
+    render();
+  }
+});
+
+document.addEventListener("input", function(e){
+  if (e.target.id === "q-free"){
+    state.free = e.target.value;
+    matchFree();
     render();
   }
 });
