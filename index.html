@@ -473,7 +473,7 @@ var T = {
     q1:"どんなものがお好きですか？（複数可）", q2:"どのくらい東京にいられますか？", q3:"ご人数",
     s1:"1日の長さ", s2:"お一人あたり", s3:"うち新提案ぶん",
     empty:"左でお好みを選ぶと、ここに1日の行程が出ます。",
-    pick:"好きなものを選んでください", plan:"の1日",
+    pick:"好きなものを選んでください", dayFull:"の1日", dayHalf:"の半日",
     cur:"現行", nw:"新提案", pax:"名",
     note:"※ 所要時間・順序は当日の混雑により調整します。飲食代・入場料・ゲーム代は含みません。",
     noteNew:"※ <b>新提案</b>の印がついた行が、今回ご提案している商品です。ここを足すと1日が最後まで埋まります。"
@@ -482,7 +482,7 @@ var T = {
     q1:"What are you into? (pick any)", q2:"How long are you in Tokyo?", q3:"Group size",
     s1:"Your day", s2:"Per person", s3:"New additions",
     empty:"Pick what you like and your day will appear here.",
-    pick:"Pick what you like", plan:" day",
+    pick:"Pick what you like", dayFull:"A day in ", dayHalf:"Half a day in ",
     cur:"Available now", nw:"New", pax:"pax",
     note:"Timings may shift with crowds on the day. Food, entry fees and arcade credits are not included.",
     noteNew:"Lines marked <b>New</b> are the additions we are proposing. They are what carry the day through to the evening."
@@ -631,8 +631,8 @@ function render(){
     var it = ITEMS[p.key];
     price += it.price;
     if (it.kind === "new"){ delta += it.price; anyNew = true; }
-    var badge = it.kind === "new"
-      ? '<span class="badge new">'+t.nw+'</span>'
+    var badge = p.key === "lunch" ? ""
+      : it.kind === "new" ? '<span class="badge new">'+t.nw+'</span>'
       : '<span class="badge cur">'+t.cur+'</span>';
     return '<li><div class="time num">'+fmt(p.at)+'</div><div><div class="ti">'
       + it[lg] + badge + '</div><div class="td">' + it[lg==="ja"?"dja":"den"] + '</div></div></li>';
@@ -647,7 +647,8 @@ function render(){
     ? (lg==="ja" ? "秋葉原" : "Akihabara")
     : (lg==="ja" ? "池袋"   : "Ikebukuro");
 
-  el("r-title").textContent = lg === "ja" ? (areaName + t.plan) : (areaName + t.plan);
+  var dayWord = state.len === "half" ? t.dayHalf : t.dayFull;
+  el("r-title").textContent = lg === "ja" ? (areaName + dayWord) : (dayWord + areaName);
   el("r-area").textContent  = isPass ? (lg==="ja" ? "1 Day Otaku Pass" : "1 Day Otaku Pass") : "";
 
   el("s-hours").textContent = span;
