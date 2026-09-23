@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MANGA DOJO Tokyo × Yuki Anime sensei ｜ 協業のご提案</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="池袋・秋葉原のポップカルチャー体験を、もう一日ぶん長く楽しんでもらうための3つのご提案。1日プランの自動組み立てプロトタイプ付き。">
+<style>
+:root{
+  /* 2社のブランド赤。構造=MANGA DOJO の #b20200 / 新提案=Anime Sensei の #ee3f34 */
+  --dojo:#b20200;
+  --sensei:#ee3f34;
+  --ink:#1c1719;
+  --sub:#6b5f60;
+  --line:#e6dedd;
+  --rule:#b20200;
+  --bg:#ffffff;
+  --surface:#f4f2f1;
+  --carbon:#141011;
+  --deco:rgba(178,2,0,.055);
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;
+  font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased;
+}
+body,p,li,td,th,div,span,b,small,summary,button,a,h1,h2,h3,h4,label{
+  word-break:auto-phrase;line-break:strict;overflow-wrap:anywhere;
+}
+h1,h2,h3,h4,.btn,.chip,.eyebrow,.tag,.lead,.note,.kpi-l{text-wrap:balance}
+p,.body-text{text-wrap:pretty}
+h1,h2,h3,h4{line-height:1.3;margin:0;font-weight:900;letter-spacing:.005em}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--sensei);outline-offset:3px;border-radius:4px}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* ── 赤帯 ─────────────────── */
+.bar{background:var(--dojo);color:#fff;font-size:13px;letter-spacing:.09em;
+  padding:9px 0;font-weight:700}
+.bar .wrap{display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.bar .r{opacity:.82;letter-spacing:.06em;font-weight:600}
+
+/* ── ナビ ─────────────────── */
+.nav{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:60px}
+.brand{font-weight:900;font-size:15px;letter-spacing:.02em;color:var(--dojo);white-space:nowrap}
+.brand em{font-style:normal;color:var(--ink);opacity:.45;margin:0 7px;font-weight:700}
+.navlinks{display:flex;gap:26px;font-size:14px;font-weight:700;color:var(--dojo)}
+.navlinks a{text-decoration:none;transition:opacity .12s ease}
+.navlinks a:hover{opacity:.55}
+@media(max-width:860px){.navlinks{display:none}}
+
+/* ── ヒーロー ─────────────── */
+.hero{padding:76px 0 56px}
+.hero .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.eyebrow{font-size:13px;font-weight:800;letter-spacing:.16em;color:var(--dojo);margin-bottom:22px}
+h1{font-size:clamp(36px,6.2vw,74px);line-height:1.12;letter-spacing:-.015em}
+h1 .hl{color:var(--dojo)}
+.hero .lead{margin-top:26px;font-size:17px;color:var(--sub);max-width:34em}
+.hero .cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+
+.btn{display:inline-flex;align-items:center;gap:10px;font:inherit;font-size:15px;font-weight:800;
+  padding:14px 26px;border-radius:999px;border:1.5px solid var(--dojo);background:transparent;
+  color:var(--dojo);cursor:pointer;text-decoration:none;
+  transition:transform .12s var(--spring),background .14s ease,color .14s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn.fill{background:var(--dojo);color:#fff;box-shadow:0 10px 26px rgba(178,2,0,.26)}
+.btn.fill:hover{background:#920200}
+.btn:active{transform:translateY(0) scale(.98)}
+
+/* ヒーロー右：プロト入口 */
+.protocard{border-radius:26px;background:var(--surface);padding:30px;position:relative;overflow:hidden}
+.protocard .tag{display:inline-block;font-size:13px;font-weight:800;letter-spacing:.1em;
+  color:var(--sensei);margin-bottom:14px}
+.protocard h3{font-size:22px;line-height:1.45}
+.protocard p{margin-top:12px;font-size:14.5px;color:var(--sub)}
+.mini{margin-top:20px;background:#fff;border-radius:16px;padding:16px 18px}
+.mini .row{display:flex;gap:12px;align-items:baseline;padding:7px 0;font-size:14px}
+.mini .row+.row{border-top:1px solid var(--line)}
+.mini .t{font-weight:800;color:var(--dojo);min-width:52px;font-size:13px;letter-spacing:.04em}
+.mini .n{flex:1}
+.mini .row.new .n b{color:var(--sensei)}
+
+@media(max-width:900px){
+  .hero{padding:50px 0 40px}
+  .hero .grid{grid-template-columns:1fr;gap:38px}
+}
+
+/* ── セクション見出し（雑誌の柱） ── */
+section{position:relative;overflow:hidden}
+.sec{padding:74px 0}
+.sec.tint{background:var(--surface)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+  border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:38px}
+.head .l{font-size:13px;font-weight:800;letter-spacing:.16em;color:var(--dojo)}
+.head .r{font-size:13px;font-weight:700;color:var(--dojo);opacity:.7;letter-spacing:.05em}
+h2{font-size:clamp(26px,3.6vw,40px);line-height:1.32;letter-spacing:-.01em;max-width:20em}
+.sec .lead{margin-top:18px;font-size:16.5px;color:var(--sub);max-width:58ch}
+
+/* あしらい（意味のない図形・並び順で固定） */
+.sec.tint::before{content:"";position:absolute;pointer-events:none;z-index:0}
+.sec.tint:nth-of-type(odd)::before{top:-50px;right:-70px;width:250px;height:250px;
+  background:var(--deco);border-radius:0 0 0 100%}
+.sec.tint:nth-of-type(even)::before{bottom:30px;right:-20px;width:200px;height:150px;
+  background-image:radial-gradient(var(--deco) 2.5px,transparent 2.5px);background-size:20px 20px}
+
+/* ── 提案カード ───────────── */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:40px}
+.card{background:#fff;border-radius:24px;padding:30px}
+.sec.tint .card{background:#fff}
+.sec:not(.tint) .card{background:var(--surface)}
+.card .no{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--sensei);margin-bottom:14px}
+.card h3{font-size:20px;line-height:1.45}
+.card p{margin-top:13px;font-size:14.5px;color:var(--sub)}
+.card ul{margin:18px 0 0;padding:0;list-style:none}
+.card li{font-size:14px;padding:9px 0;display:flex;gap:10px}
+.card li+li{border-top:1px solid var(--line)}
+.card li b{color:var(--dojo);font-size:13px;letter-spacing:.05em;min-width:62px;flex:none}
+@media(max-width:900px){.cards{grid-template-columns:1fr;gap:18px}}
+
+/* 数字の帯 */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border-radius:20px;overflow:hidden;margin-top:44px}
+.kpi{background:#fff;padding:26px 24px}
+.sec.tint .kpi{background:var(--surface)}
+.kpi-l{font-size:13px;font-weight:800;letter-spacing:.09em;color:var(--dojo)}
+.kpi-v{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-.02em;margin-top:6px;line-height:1.1}
+.kpi-n{font-size:13.5px;color:var(--sub);margin-top:6px;line-height:1.7}
+@media(max-width:720px){.kpis{grid-template-columns:1fr}}
+
+/* ── ビルダー ─────────────── */
+.builder{margin-top:40px;display:grid;grid-template-columns:.88fr 1.12fr;gap:26px;align-items:start}
+@media(max-width:940px){.builder{grid-template-columns:1fr}}
+.panel{background:#fff;border-radius:24px;padding:28px}
+.panel .ptitle{font-size:13px;font-weight:800;letter-spacing:.14em;color:var(--dojo);
+  padding-bottom:10px;border-bottom:1px solid var(--rule);margin-bottom:22px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px}
+.qlabel{font-size:14px;font-weight:800;margin:24px 0 12px}
+.qlabel:first-of-type{margin-top:0}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{font:inherit;font-size:13.5px;font-weight:700;padding:9px 15px;border-radius:999px;
+  border:1.5px solid var(--line);background:#fff;color:var(--sub);cursor:pointer;
+  transition:border-color .12s ease,color .12s ease,background .12s ease,transform .12s var(--spring)}
+.chip:hover{transform:translateY(-1px);border-color:var(--dojo)}
+.chip[aria-pressed="true"]{background:var(--dojo);border-color:var(--dojo);color:#fff}
+.lang{display:flex;gap:0;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+.lang button{font:inherit;font-size:12.5px;font-weight:800;letter-spacing:.06em;padding:5px 13px;
+  border:0;background:#fff;color:var(--sub);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--dojo);color:#fff}
+
+/* 結果 */
+.result{background:#fff;border-radius:24px;padding:28px;min-height:420px}
+.rhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;
+  border-bottom:1px solid var(--rule);padding-bottom:12px;margin-bottom:8px;flex-wrap:wrap}
+.rhead .rt{font-size:19px;font-weight:900;line-height:1.4}
+.rhead .rs{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--dojo);flex:none}
+.tl{margin:0;padding:0;list-style:none}
+.tl li{display:grid;grid-template-columns:70px 1fr;gap:16px;padding:17px 0;
+  border-bottom:1px solid var(--line);animation:fade .42s var(--ease-out) both}
+.tl li:nth-child(2){animation-delay:.05s}
+.tl li:nth-child(3){animation-delay:.1s}
+.tl li:nth-child(4){animation-delay:.15s}
+.tl li:nth-child(5){animation-delay:.2s}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.tl .time{font-size:14px;font-weight:900;color:var(--dojo);letter-spacing:.02em;padding-top:1px}
+.tl .ti{font-size:15.5px;font-weight:800;line-height:1.5}
+.tl .td{font-size:13.5px;color:var(--sub);margin-top:5px;line-height:1.7}
+.badge{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.06em;
+  padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:1px;white-space:nowrap}
+.badge.cur{background:rgba(178,2,0,.09);color:var(--dojo)}
+.badge.new{background:var(--sensei);color:#fff}
+.sum{margin-top:22px;background:var(--surface);border-radius:18px;padding:20px 22px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.sum div .l{font-size:12.5px;font-weight:800;letter-spacing:.08em;color:var(--dojo)}
+.sum div .v{font-size:23px;font-weight:900;margin-top:2px;letter-spacing:-.01em}
+.sum div .v small{font-size:13px;font-weight:700;color:var(--sub);margin-left:3px}
+.sum div:last-child .v{color:var(--sensei)}
+@media(max-width:560px){.sum{grid-template-columns:1fr;gap:12px}
+  .tl li{grid-template-columns:58px 1fr;gap:12px}}
+.empty{color:var(--sub);font-size:14.5px;padding:60px 0;text-align:center;line-height:2}
+.foot-note{font-size:13px;color:var(--sub);margin-top:16px;line-height:1.8}
+
+/* ── 手土産 / 記事 ─────────── */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:40px}
+@media(max-width:860px){.two{grid-template-columns:1fr}}
+.serp{background:#fff;border-radius:24px;padding:26px 28px}
+.serp .q{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--dojo);margin-bottom:16px}
+.serp .ans{font-size:15px;line-height:1.95}
+.serp .ans mark{background:linear-gradient(transparent 58%,rgba(238,63,52,.26) 58%);
+  padding:0 2px;color:inherit}
+.serp .cite{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:13.5px;color:var(--sub);line-height:1.9}
+.serp .cite b{color:var(--dojo)}
+
+/* ── 次の一歩 ─────────────── */
+.final{background:var(--carbon);color:#fff;border-radius:30px;padding:56px 48px;margin:0 0 20px}
+.final h2{color:#fff;max-width:18em}
+.final p{margin-top:20px;color:rgba(255,255,255,.7);font-size:16px;max-width:52ch}
+.final .btn{border-color:#fff;color:#fff;margin-top:32px}
+.final .btn.fill{background:#fff;color:var(--carbon);box-shadow:none}
+.final .btn:hover{background:rgba(255,255,255,.12)}
+.final .btn.fill:hover{background:rgba(255,255,255,.86)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.16);
+  border-radius:18px;overflow:hidden;margin-top:40px}
+.step{background:var(--carbon);padding:22px 24px}
+.step .sn{font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--sensei)}
+.step .st{font-size:15.5px;font-weight:800;margin-top:7px;line-height:1.55}
+.step .sd{font-size:13.5px;color:rgba(255,255,255,.62);margin-top:7px;line-height:1.8}
+@media(max-width:760px){.final{padding:40px 26px;border-radius:24px}.steps{grid-template-columns:1fr}}
+
+footer{padding:40px 0 56px;font-size:13.5px;color:var(--sub);line-height:1.9}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* 出現 */
+.reveal{animation:reveal-in linear both;animation-timeline:view();animation-range:entry 8% cover 30%}
+@keyframes reveal-in{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@supports not (animation-timeline:view()){.reveal{animation:none;opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <span>MANGA DOJO Tokyo　×　Yuki Anime sensei ／ 協業のご提案</span>
+  <span class="r">2026.09</span>
+</div></div>
+
+<nav class="nav"><div class="wrap">
+  <span class="brand">MANGA DOJO Tokyo<em>×</em>Yuki Anime sensei</span>
+  <span class="navlinks">
+    <a href="#teian">3つのご提案</a>
+    <a href="#builder">プロトタイプ</a>
+    <a href="#geo">手土産</a>
+    <a href="#next">次の一歩</a>
+  </span>
+</div></nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero"><div class="wrap"><div class="grid">
+  <div>
+    <div class="eyebrow">協業のご提案</div>
+    <h1>同じお客様に、<br><span class="hl">もう一日ぶん</span>。</h1>
+    <p class="lead">
+      漫画ワークショップに来てくださったお客様は、その日の午後も、夕方も、まだ東京にいます。
+      池袋と秋葉原を歩いて回るガイドを足すと、1組のご予約が「2時間の体験」から「1日の思い出」に変わります。
+      そのための組み立て方を3つ、実際に動くプロトタイプと一緒にまとめました。
+    </p>
+    <div class="cta">
+      <a class="btn fill" href="#builder">1日プランを組み立ててみる →</a>
+      <a class="btn" href="#teian">3つのご提案を読む</a>
+    </div>
+  </div>
+
+  <div class="protocard">
+    <div class="tag">PROTOTYPE</div>
+    <h3>Otaku Day Builder<br>お客様の「好き」から1日を組む</h3>
+    <p>好きなジャンルと滞在時間を選ぶだけで、MANGA DOJO の体験とウォーキングツアーを組み合わせた行程表が出ます。お問い合わせへの返信にそのまま貼れる形です。</p>
+    <div class="mini" aria-hidden="true">
+      <div class="row"><span class="t">10:00</span><span class="n"><b>漫画ワークショップ</b></span></div>
+      <div class="row"><span class="t">13:00</span><span class="n"><b>池袋ウォーキングツアー</b></span></div>
+      <div class="row new"><span class="t">17:30</span><span class="n"><b>ナイトツアー</b>（新提案）</span></div>
+    </div>
+  </div>
+</div></div></header>
+
+<!-- ═══ いま ═══ -->
+<section class="sec tint reveal"><div class="wrap">
+  <div class="head"><span class="l">いま — ここまでのお取り組み</span><span class="r">ありがとうございます</span></div>
+  <h2>ツアーを1本、置かせていただいています。次は「置く」から「組む」へ。</h2>
+  <p class="lead">
+    Anime Otaku Walking Tour を御社サイトに掲載いただき、これまで数件ご紹介いただきました。
+    ただ現状は、漫画ワークショップとツアーが別々の商品として並んでいる状態です。
+    この2つを1日の流れとして設計し直すと、同じ集客のままで1組あたりの滞在時間と単価が変わります。
+  </p>
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-l">ガイド実績</div>
+      <div class="kpi-v num">500<small style="font-size:16px;font-weight:800"> 人</small></div>
+      <div class="kpi-n">海外からのオタクのお客様をご案内した累計人数です。</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-l">作品の下地</div>
+      <div class="kpi-v num">2,000<small style="font-size:16px;font-weight:800"> 作品</small></div>
+      <div class="kpi-n">視聴済みのアニメ本数。「推し」の話が通じることが商品の中身です。</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-l">対応</div>
+      <div class="kpi-v">英語・日本語</div>
+      <div class="kpi-n">オンライン日本語教師として、日常的に海外の方と英語でやりとりしています。</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══ 提案 ═══ -->
+<section class="sec reveal" id="teian"><div class="wrap">
+  <div class="head"><span class="l">ご提案 — 今シーズンから動かせるもの</span><span class="r">3本</span></div>
+  <h2>新しくお客様を集めなくても、<br>いま来ているお客様の一日を伸ばせます。</h2>
+  <p class="lead">3本とも、御社の既存商品はそのまま。足すのは「時間帯」と「束ね方」と「人数の逃がし方」だけです。</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="no">提案 01</div>
+      <h3>夕方5時から始まる<br>ナイト・オタクツアー</h3>
+      <p>秋葉原と池袋は、日が暮れてからが一番オタクの街らしい顔になります。ネオンのアーケード、夜のガチャポン、ゲームセンターの熱気。写真も夜のほうが映えます。</p>
+      <ul>
+        <li><b>時間帯</b><span>17:30〜20:30（3時間）</span></li>
+        <li><b>組み方</b><span>昼の体験を終えたお客様に、そのままご案内できます</span></li>
+        <li><b>ねらい</b><span>1日の終わりまでお付き合いすることで、単価と満足度が同時に上がります</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="no">提案 02</div>
+      <h3>1 Day Otaku Pass<br>体験＋ツアーを1商品に</h3>
+      <p>すでにサイトに「ワークショップの前後にセットして楽しむことも可能です」と書いていただいています。これを、値段のついた1つの商品にします。</p>
+      <ul>
+        <li><b>中身</b><span>漫画ワークショップ（2h）＋ウォーキングツアー（3h）</span></li>
+        <li><b>価格例</b><span>お一人 ¥28,000（単品合計 ¥31,800）</span></li>
+        <li><b>ねらい</b><span>OTAでは「1日まるごと」の商品が検索で強く、比較もされにくくなります</span></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="no">提案 03</div>
+      <h3>団体の「街歩き分科会」<br>会場の外にキャパを作る</h3>
+      <p>大人数の団体様は、会場の広さが受け入れ人数の上限になります。半分を街に出せば、同じ会場のまま倍の人数をお受けできます。</p>
+      <ul>
+        <li><b>やり方</b><span>A班は漫画ワークショップ、B班は街歩き。途中で入れ替え</span></li>
+        <li><b>効く場面</b><span>修学旅行・スタディツアー・企業研修などの大人数</span></li>
+        <li><b>ねらい</b><span>会場の都合でお断りしていた規模の案件が受けられるようになります</span></li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══ プロトタイプ ═══ -->
+<section class="sec tint reveal" id="builder"><div class="wrap">
+  <div class="head"><span class="l">プロトタイプ — Otaku Day Builder</span><span class="r">実際に動きます →</span></div>
+  <h2>お客様の「好き」を3つ選ぶだけで、<br>その日の行程表が出ます。</h2>
+  <p class="lead">
+    お問い合わせの返信を書くとき、毎回ゼロから行程を考えるのは大変です。この道具は、ご希望から組み合わせを出して、そのまま送れる形にします。
+    <b>お客様にお見せする画面は英語に切り替えられます。</b>
+  </p>
+
+  <div class="builder">
+    <div class="panel">
+      <div class="ptitle"><span>ご希望をうかがう</span>
+        <span class="lang" role="group" aria-label="表示言語">
+          <button type="button" id="ja" aria-pressed="true">日本語</button>
+          <button type="button" id="en" aria-pressed="false">EN</button>
+        </span>
+      </div>
+
+      <div class="qlabel" data-t="q1">どんなものがお好きですか？（複数可）</div>
+      <div class="chips" id="q-int"></div>
+
+      <div class="qlabel" data-t="q2">どのくらい東京にいられますか？</div>
+      <div class="chips" id="q-len"></div>
+
+      <div class="qlabel" data-t="q3">ご人数</div>
+      <div class="chips" id="q-pax"></div>
+    </div>
+
+    <div class="result">
+      <div class="rhead">
+        <span class="rt" id="r-title">好きなものを選んでください</span>
+        <span class="rs" id="r-area"></span>
+      </div>
+      <ul class="tl" id="r-list">
+        <li style="grid-template-columns:1fr;border:0"><div class="empty" id="r-empty">
+          左でお好みを選ぶと、ここに1日の行程が出ます。
+        </div></li>
+      </ul>
+      <div class="sum" id="r-sum" hidden>
+        <div><div class="l" data-t="s1">滞在時間</div><div class="v num" id="s-hours"></div></div>
+        <div><div class="l" data-t="s2">お一人あたり</div><div class="v num" id="s-price"></div></div>
+        <div><div class="l" data-t="s3">うち新提案ぶん</div><div class="v num" id="s-delta"></div></div>
+      </div>
+      <p class="foot-note" id="r-note"></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══ 手土産 ═══ -->
+<section class="sec reveal" id="geo"><div class="wrap">
+  <div class="head"><span class="l">手土産 — こちらで先に作っておきます</span><span class="r">費用はいただきません</span></div>
+  <h2>ChatGPT に「東京で漫画を習うなら？」と聞いたお客様に、<br>名前が出るようにします。</h2>
+  <p class="lead">
+    海外のお客様が旅程を調べる入口が、検索エンジンから AI の回答に移りつつあります。
+    AI に引用されるかどうかは、記事の書き方（質問に先に答える形になっているか）と、Bing・Brave に索引されているかで決まります。
+    英語記事を2本、こちらで書いて公開し、2週間後に実際に引用されたかを測ってご報告します。
+  </p>
+
+  <div class="two">
+    <div class="serp">
+      <div class="q">AIへの質問例</div>
+      <div class="ans">
+        “Where can I actually learn to draw manga in Tokyo with a professional?”<br><br>
+        <mark>In Ikebukuro, MANGA DOJO Tokyo runs a two-hour workshop led by a working manga artist, with English interpretation included.</mark>
+        Sessions run three times a day and beginners are welcome.
+      </div>
+      <div class="cite">引用元として表示させたいページ ──<br><b>“Manga workshops in Tokyo: what actually happens in a two-hour class”</b></div>
+    </div>
+
+    <div class="serp">
+      <div class="q">やること</div>
+      <div class="ans" style="font-size:14.5px">
+        ① 英語記事を2本執筆（お客様が実際に打ち込む質問を、そのまま見出しにします）<br>
+        ② 各記事の冒頭に、AI が抜き出しやすい短い回答文を置きます<br>
+        ③ Bing・Brave に索引を申請します（ここが抜けていると AI に読まれません）<br>
+        ④ 2週間後、ChatGPT・Perplexity・Gemini で実際に聞いて、引用されたかをご報告します
+      </div>
+      <div class="cite">記事はこちらのサイトに置きます。御社サイトには手を入れません。効果が出てから、御社サイト側をどうするかご相談させてください。</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══ これから ═══ -->
+<section class="sec tint reveal"><div class="wrap">
+  <div class="head"><span class="l">これから — もう少し先のこと</span><span class="r">2本</span></div>
+  <h2>浅草店と、海外イベント。</h2>
+  <div class="cards" style="margin-top:34px">
+    <div class="card" style="grid-column:span 2">
+      <div class="no">浅草店</div>
+      <h3>浅草と秋葉原は、動線で結べます</h3>
+      <p>浅草は海外のお客様の宿が集まる街で、秋葉原とは電車で一本です。浅草店で漫画体験をされたお客様を、そのまま秋葉原のツアーへお渡しできます。オープン前のいまなら、商品の形から一緒に決められます。開店前に一度、動線の下見にご一緒させてください。</p>
+    </div>
+    <div class="card">
+      <div class="no">海外イベント</div>
+      <h3>現地での英語の手足として</h3>
+      <p>海外のアニメ・コミックイベントでは、ブースでの呼び込みとワークショップの進行に英語の手が要ります。作品の話ができる人間が1人いるだけで、立ち寄られる方の数が変わります。ご入用の際はお声がけください。</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══ 次の一歩 ═══ -->
+<section class="sec" id="next"><div class="wrap">
+  <div class="final reveal">
+    <h2>まず、30分だけお時間をいただけませんか。</h2>
+    <p>3本のうちどれが御社にとって手離れがいいか、実際の運用を伺わないと決められません。オンラインでも、池袋に伺ってでも構いません。</p>
+    <div class="steps">
+      <div class="step"><div class="sn">STEP 01</div><div class="st">30分のオンライン</div><div class="sd">3本のうち、どれが動かしやすいかを決めます。</div></div>
+      <div class="step"><div class="sn">STEP 02</div><div class="st">1本だけ試す</div><div class="sd">いちばん手間の少ない1本を、テスト販売として出します。</div></div>
+      <div class="step"><div class="sn">STEP 03</div><div class="st">数字を見て決める</div><div class="sd">続けるか、別の1本に移るかを、実績を見て決めます。</div></div>
+    </div>
+    <a class="btn fill" href="#builder">先にプロトタイプを触ってみる →</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span>Yuki Anime sensei ／ Anime Otaku Walking Tour（池袋・秋葉原）</span>
+  <span>2026.09 ご提案</span>
+</div></footer>
+
+<script>
+/* ─────────────────────────────────────────────
+   Otaku Day Builder
+   現行商品(cur)と新提案(new)を混ぜて1日の行程を組む
+   ───────────────────────────────────────────── */
+var T = {
+  ja:{
+    q1:"どんなものがお好きですか？（複数可）", q2:"どのくらい東京にいられますか？", q3:"ご人数",
+    s1:"滞在時間", s2:"お一人あたり", s3:"うち新提案ぶん",
+    empty:"左でお好みを選ぶと、ここに1日の行程が出ます。",
+    pick:"好きなものを選んでください", plan:"の1日",
+    cur:"現行", nw:"新提案", hrs:"時間", pax:"名",
+    note:"※ 所要時間・順序は当日の混雑により調整します。飲食代・入場料・ゲーム代は含みません。",
+    noteNew:"※ <b>新提案</b>の印がついた行が、今回ご提案している商品です。ここを足すと1日が最後まで埋まります。"
+  },
+  en:{
+    q1:"What are you into? (pick any)", q2:"How long are you in Tokyo?", q3:"Group size",
+    s1:"Time with us", s2:"Per person", s3:"New additions",
+    empty:"Pick what you like and your day will appear here.",
+    pick:"Pick what you like", plan:" day",
+    cur:"Available now", nw:"New", hrs:"hrs", pax:"pax",
+    note:"Timings may shift with crowds on the day. Food, entry fees and arcade credits are not included.",
+    noteNew:"Lines marked <b>New</b> are the additions we are proposing. They are what carry the day through to the evening."
+  }
+};
+
+var INTERESTS = [
+  {id:"shonen", ja:"少年バトル系",        en:"Shonen / battle anime", area:"ike"},
+  {id:"kawaii", ja:"かわいい系・サンリオ", en:"Cute & Sanrio",         area:"ike"},
+  {id:"cards",  ja:"カード・ポケモン",     en:"Cards & Pokémon",       area:"ike"},
+  {id:"retro",  ja:"レトロゲーム",        en:"Retro games & arcades", area:"akb"},
+  {id:"figure", ja:"フィギュア・同人",     en:"Figures & doujin",      area:"akb"},
+  {id:"draw",   ja:"自分で描いてみたい",   en:"I want to draw",        area:"any"},
+  {id:"cos",    ja:"コスプレしたい",       en:"Cosplay",               area:"any"},
+  {id:"sake",   ja:"日本酒・大人の時間",   en:"Sake & a grown-up evening", area:"any"}
+];
+var LENGTHS = [
+  {id:"half", ja:"半日（3〜4時間）", en:"Half day (3–4 hrs)"},
+  {id:"full", ja:"まる1日（6〜8時間）", en:"Full day (6–8 hrs)"},
+  {id:"night",ja:"1日＋夜まで（10時間）", en:"Full day + evening"}
+];
+var PAX = [
+  {id:"1", ja:"1名", en:"1"}, {id:"2", ja:"2名", en:"2"},
+  {id:"4", ja:"3〜4名", en:"3–4"}, {id:"8", ja:"5名以上", en:"5+"}
+];
+
+/* 商品マスタ。price は お一人あたり（税込）。kind: cur=現行 / new=今回のご提案 */
+var ITEMS = {
+  ws:    {ja:"漫画ワークショップ", en:"Manga workshop",
+          dja:"プロの漫画家による作画体験。英語通訳つき。", den:"Draw with a working manga artist. English interpretation included.",
+          dur:2, price:15800, kind:"cur"},
+  cos:   {ja:"コスプレ体験＋撮影", en:"Cosplay session with photos",
+          dja:"現役コスプレイヤーによる衣装とメイク。ミニ撮影つき。", den:"Costume and make-up with a working cosplayer, plus a mini photo shoot.",
+          dur:2, price:19800, kind:"cur"},
+  tour:  {ja:"ウォーキングツアー", en:"Otaku walking tour",
+          dja:"推しに合わせてその日のルートを組みます。", den:"The route is built around your favourites on the day.",
+          dur:3, price:16000, kind:"cur"},
+  night: {ja:"ナイト・オタクツアー", en:"Night otaku tour",
+          dja:"ネオンのアーケードとゲームセンター。写真が一番よく撮れる時間帯です。", den:"Neon arcades after dark — the best three hours of the day for photos.",
+          dur:3, price:18000, kind:"new"},
+  sake:  {ja:"日本酒テイスティング", en:"Sake tasting",
+          dja:"日本酒ナビゲーターと5〜6種類を飲み比べ。おつまみつき。", den:"Five or six sakes with a certified navigator, with snacks.",
+          dur:2, price:8800, kind:"cur"},
+  lunch: {ja:"お昼休憩", en:"Lunch break",
+          dja:"近くのお店をご案内します。実費です。", den:"We will point you to somewhere good nearby. Paid on the spot.",
+          dur:1, price:0, kind:"cur"}
+};
+
+var state = {int:[], len:"full", pax:"2", lang:"ja"};
+
+function el(id){ return document.getElementById(id); }
+function L(){ return T[state.lang]; }
+function yen(n){ return "¥" + n.toLocaleString("en-US"); }
+
+function renderChips(){
+  var lg = state.lang;
+  el("q-int").innerHTML = INTERESTS.map(function(o){
+    return '<button type="button" class="chip" data-k="int" data-v="'+o.id+'" aria-pressed="'+
+      (state.int.indexOf(o.id)>-1)+'">'+o[lg]+'</button>';
+  }).join("");
+  el("q-len").innerHTML = LENGTHS.map(function(o){
+    return '<button type="button" class="chip" data-k="len" data-v="'+o.id+'" aria-pressed="'+
+      (state.len===o.id)+'">'+o[lg]+'</button>';
+  }).join("");
+  el("q-pax").innerHTML = PAX.map(function(o){
+    return '<button type="button" class="chip" data-k="pax" data-v="'+o.id+'" aria-pressed="'+
+      (state.pax===o.id)+'">'+o[lg]+'</button>';
+  }).join("");
+  document.querySelectorAll(".qlabel").forEach(function(n){
+    var k = n.getAttribute("data-t"); if (k) n.textContent = L()[k];
+  });
+  document.querySelectorAll("#r-sum .l").forEach(function(n){
+    var k = n.getAttribute("data-t"); if (k) n.textContent = L()[k];
+  });
+}
+
+/* エリア判定: 選ばれた興味の area を数える */
+function pickArea(){
+  var ike = 0, akb = 0;
+  state.int.forEach(function(id){
+    var o = INTERESTS.filter(function(x){return x.id===id;})[0];
+    if (!o) return;
+    if (o.area === "ike") ike++;
+    if (o.area === "akb") akb++;
+  });
+  if (akb > ike) return "akb";
+  return "ike";
+}
+
+/* 行程を組む */
+function buildPlan(){
+  var has = function(id){ return state.int.indexOf(id) > -1; };
+  var plan = [];
+
+  // 午前：描きたい or コスプレ。どちらも選ばれていなければ既定で漫画WS
+  if (has("cos")) plan.push({at:10, key:"cos"});
+  else            plan.push({at:10, key:"ws"});
+  if (has("cos") && has("draw")) plan.push({at:13, key:"ws"});
+
+  if (state.len === "half") {
+    // 半日：体験1つだけ、もしくは描きたくないならツアーだけ
+    if (!has("draw") && !has("cos")) plan = [{at:13, key:"tour"}];
+    return plan;
+  }
+
+  // 昼休憩 → ツアー
+  var t = plan.length > 1 ? 15 : 12;
+  if (t === 12) { plan.push({at:12, key:"lunch"}); plan.push({at:13, key:"tour"}); }
+  else          { plan.push({at:15, key:"tour"}); }
+
+  if (state.len === "night") {
+    if (has("sake")) plan.push({at:18, key:"sake"});
+    else             plan.push({at:17.5, key:"night"});
+  }
+  return plan;
+}
+
+function fmt(h){
+  var hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+  return (hh<10?"0":"") + hh + ":" + (mm<10?"0":"") + mm;
+}
+
+function render(){
+  renderChips();
+  var lg = state.lang, t = L();
+
+  if (state.int.length === 0){
+    el("r-title").textContent = t.pick;
+    el("r-area").textContent = "";
+    el("r-list").innerHTML = '<li style="grid-template-columns:1fr;border:0"><div class="empty">'+t.empty+'</div></li>';
+    el("r-sum").hidden = true;
+    el("r-note").innerHTML = "";
+    return;
+  }
+
+  var plan  = buildPlan();
+  var area  = pickArea();
+  var hours = 0, price = 0, delta = 0, anyNew = false;
+
+  el("r-list").innerHTML = plan.map(function(p){
+    var it = ITEMS[p.key];
+    hours += it.dur; price += it.price;
+    if (it.kind === "new"){ delta += it.price; anyNew = true; }
+    var badge = it.kind === "new"
+      ? '<span class="badge new">'+t.nw+'</span>'
+      : '<span class="badge cur">'+t.cur+'</span>';
+    return '<li><div class="time num">'+fmt(p.at)+'</div><div><div class="ti">'
+      + it[lg] + badge + '</div><div class="td">' + it[lg==="ja"?"dja":"den"] + '</div></div></li>';
+  }).join("");
+
+  // 1日パックが成立するなら、その分を割引として見せる
+  var keys = plan.map(function(p){ return p.key; });
+  var isPass = keys.indexOf("ws") > -1 && keys.indexOf("tour") > -1;
+  if (isPass){ price -= 3800; }
+
+  var areaName = area === "akb"
+    ? (lg==="ja" ? "秋葉原" : "Akihabara")
+    : (lg==="ja" ? "池袋"   : "Ikebukuro");
+
+  el("r-title").textContent = lg === "ja" ? (areaName + t.plan) : (areaName + t.plan);
+  el("r-area").textContent  = isPass ? (lg==="ja" ? "1 Day Otaku Pass" : "1 Day Otaku Pass") : "";
+
+  el("s-hours").innerHTML = hours + '<small>' + t.hrs + '</small>';
+  el("s-price").textContent = yen(price);
+  el("s-delta").textContent = delta ? "+" + yen(delta) : "—";
+  el("r-sum").hidden = false;
+
+  var note = t.note;
+  if (anyNew || isPass) note = t.noteNew + "<br>" + t.note;
+  if (isPass) note = (lg==="ja"
+      ? "※ 漫画ワークショップとツアーを <b>1 Day Otaku Pass</b> として束ねたため、単品合計より ¥3,800 お安くなっています。<br>"
+      : "Bundled as a <b>1 Day Otaku Pass</b>, so ¥3,800 less than booking the two separately.<br>") + note;
+  el("r-note").innerHTML = note;
+}
+
+document.addEventListener("click", function(e){
+  var b = e.target.closest(".chip");
+  if (b){
+    var k = b.getAttribute("data-k"), v = b.getAttribute("data-v");
+    if (k === "int"){
+      var i = state.int.indexOf(v);
+      if (i > -1) state.int.splice(i,1); else state.int.push(v);
+    } else {
+      state[k] = v;
+    }
+    render();
+    return;
+  }
+  if (e.target.id === "ja" || e.target.id === "en"){
+    state.lang = e.target.id;
+    el("ja").setAttribute("aria-pressed", state.lang === "ja");
+    el("en").setAttribute("aria-pressed", state.lang === "en");
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
